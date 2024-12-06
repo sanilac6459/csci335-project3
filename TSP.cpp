@@ -57,7 +57,7 @@ std::list<Node> TSP::constructCities(const std::string& filename) {
  *       As such, the first weight will ALWAYS equal 0, since there is no edge from the start city to itself
  *
  */
-TSP::Tour nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
+TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
   TSP::Tour tour = Tour();
   return tour;
 }
