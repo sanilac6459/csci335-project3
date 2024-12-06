@@ -58,5 +58,6 @@ std::list<Node> TSP::constructCities(const std::string& filename) {
  *
  */
 TSP::Tour nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
-
+  TSP::Tour t = TSP::Tour();
+  return t;
 }
