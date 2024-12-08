@@ -58,7 +58,7 @@ std::list<Node> TSP::constructCities(const std::string& filename) {
  *
  */
 TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
-  // TSP::Tour tour = Tour();
+  TSP::Tour tour = Tour();
   // return tour;
   
   // check if start_id is a valid city ID within the range
@@ -71,19 +71,36 @@ TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
   }
   
 
-  TSP::Tour tour;
-  std::vector<size_t>weights;
-  size_t distance = 0;
-  
-
-  // start from specified city
+  // start from that specified city
   Node current_city = *it;
   tour.path.push_back(current_city);
+  tour.weights.push_back(0);
+  size_t total_distance = 0;
+  
   cities.erase(it);
 
+  
   while(!cities.empty()) {
-    
+    // finding the nearest unvisited city
+    auto nearest_it = std::min_element(cities.begin(), cities.end(), [&current_city](const Node& a, const Node& b) {
+      return current_city.distance(a) < current_city.distance(b);
+    });
+
+    // update tour path with nearest city
+    Node nearest_city = *nearest_it;
+    tour.path.push_back(nearest_city);
+    tour.weights.push_back(nearest_city.distance(current_city));
+    total_distance += nearest_city.distance(current_city);
+
+    // remove nearest city from the list of cities and make it the current city it visited
+    cities.erase(nearest_it);
+    current_city = nearest_city;
   }
 
-
+  size_t diff_distance = current_city.distance(tour.path.front()); // distance between current city and starting point
+  tour.weights.push_back(diff_distance);
+  total_distance += diff_distance;
+  tour.total_distance = total_distance;
+  return tour;
+ 
 }
