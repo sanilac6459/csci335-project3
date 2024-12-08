@@ -58,6 +58,32 @@ std::list<Node> TSP::constructCities(const std::string& filename) {
  *
  */
 TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
-  TSP::Tour tour = Tour();
-  return tour;
+  // TSP::Tour tour = Tour();
+  // return tour;
+  
+  // check if start_id is a valid city ID within the range
+  auto it = std::find_if(cities.begin(), cities.end(), [&start_id](const Node& city) {
+      return city.id == start_id;
+  });
+
+  if(it == cities.end()) { // if start_id not found, throw error message
+    throw std::invalid_argument("Invalid start_id: city with that id doesn't exist.");
+  }
+  
+
+  TSP::Tour tour;
+  std::vector<size_t>weights;
+  size_t distance = 0;
+  
+
+  // start from specified city
+  Node current_city = *it;
+  tour.path.push_back(current_city);
+  cities.erase(it);
+
+  while(!cities.empty()) {
+    
+  }
+
+
 }
