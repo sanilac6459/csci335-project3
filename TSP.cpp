@@ -64,10 +64,6 @@ TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
   auto it = std::find_if(cities.begin(), cities.end(), [&start_id](const Node& city) {
       return city.id == start_id;
   });
-
-  if(it == cities.end()) { // if start_id not found, throw error message
-    throw std::invalid_argument("Invalid start_id: city with that id doesn't exist.");
-  }
   
 
   // start from that specified city
