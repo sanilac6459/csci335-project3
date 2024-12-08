@@ -58,8 +58,7 @@ std::list<Node> TSP::constructCities(const std::string& filename) {
  *
  */
 TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
-  TSP::Tour tour = Tour();
-  // return tour;
+  TSP::Tour tour;
   
   // check if start_id is a valid city ID within the range
   auto it = std::find_if(cities.begin(), cities.end(), [&start_id](const Node& city) {
