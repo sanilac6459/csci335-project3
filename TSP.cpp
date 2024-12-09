@@ -60,13 +60,13 @@ std::list<Node> TSP::constructCities(const std::string& filename) {
 TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
   TSP::Tour tour;
   
-  // check if start_id is a valid city ID within the range (find source node with the id)
-    auto it = std::find_if(cities.begin(), cities.end(), [&start_id](const Node& city) {
-        return city.id == start_id;
-    });
+  // check if start_id is a valid city ID within the range
+  auto it = std::find_if(cities.begin(), cities.end(), [&start_id](const Node& city) {
+      return city.id == start_id;
+   });
   
 
-  // start from that specified city (source)
+  // start from that specified city
   Node current_city = *it;
   tour.path.push_back(current_city);
   tour.weights.push_back(0);
@@ -76,7 +76,7 @@ TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
 
   
   while(!cities.empty()) {
-    // finding the nearest unvisited city
+      // finding the nearest unvisited city
       auto nearest_it = std::min_element(cities.begin(), cities.end(), [&current_city](const Node& a, const Node& b) {
           return current_city.distance(a) < current_city.distance(b);
       });
@@ -88,19 +88,17 @@ TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
       tour.weights.push_back(nearest_distance);
       total_distance += nearest_distance;
 
-    // remove nearest city from the list of cities and make it the current city it visited
-    cities.erase(nearest_it);
-    current_city = nearest_city;
+      // remove nearest city from the list of cities and make it the current city it visited
+      cities.erase(nearest_it);
+      current_city = nearest_city;
   }
 
-Node start_city = tour.path.front();// distance between current city and starting point
-size_t return_distance = current_city.distance(start_city);
-tour.path.push_back(start_city);
-tour.weights.push_back(return_distance);
-total_distance += return_distance;
+  Node start_city = tour.path.front();// distance between current city and starting point
+  size_t return_distance = current_city.distance(start_city);
+  tour.path.push_back(start_city);
+  tour.weights.push_back(return_distance);
+  total_distance += return_distance;
 
-tour.total_distance = total_distance;
-return tour;
+  tour.total_distance = total_distance;
+  return tour;
 }
-//comments and fixes:
-//When finding the first city (*it), there's no check to ensure the iterator is valid before dereferencing.
