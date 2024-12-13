@@ -93,12 +93,9 @@ TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
      total_distance += min_distance;
 
     // remove nearest city from the list of cities and make it the current city it visited
-    //  cities.erase(std::find_if(cities.begin(), cities.end(), [&nearest_city](const Node&city) {
-    //     return city.id == nearest_city.id;
-    //  }));
     auto nearest_it = std::find_if(cities.begin(), cities.end(), [&nearest_city](const Node& city) {
-      return city.id == nearest_city.id;
-   });
+        return city.id == nearest_city.id;
+    });
      cities.erase(nearest_it);
      current_city = nearest_city;
   }
