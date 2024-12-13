@@ -75,6 +75,7 @@ TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
   cities.erase(it);
 
   while(!cities.empty()) {
+    // finding the nearest unvisited city
     Node nearest_city = *cities.begin();
     size_t min_distance = current_city.distance(*cities.begin());
 
@@ -85,35 +86,22 @@ TSP::Tour TSP::nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
         min_distance = current_distance;
       }
     }
+
+    // update tour path with nearest city
      tour.path.push_back(nearest_city);
      tour.weights.push_back(min_distance);
      total_distance += min_distance;
 
-     cities.erase(std::find_if(cities.begin(), cities.end(), [&nearest_city](const Node&city) {
-        return city.id == nearest_city.id;
-     }));
-     
+    // remove nearest city from the list of cities and make it the current city it visited
+    //  cities.erase(std::find_if(cities.begin(), cities.end(), [&nearest_city](const Node&city) {
+    //     return city.id == nearest_city.id;
+    //  }));
+    auto nearest_it = std::find_if(cities.begin(), cities.end(), [&nearest_city](const Node& city) {
+      return city.id == nearest_city.id;
+   });
+     cities.erase(nearest_it);
      current_city = nearest_city;
   }
-
-  
-  // while(!cities.empty()) {
-  //     // finding the nearest unvisited city
-  //     auto nearest_it = std::min_element(cities.begin(), cities.end(), [&current_city](const Node& a, const Node& b) {
-  //         return current_city.distance(a) < current_city.distance(b);
-  //     });
-
-  //     // update tour path with nearest city
-  //     Node nearest_city = *nearest_it;
-  //     tour.path.push_back(nearest_city);
-  //     size_t nearest_distance = current_city.distance(nearest_city);
-  //     tour.weights.push_back(nearest_distance);
-  //     total_distance += nearest_distance;
-
-  //     // remove nearest city from the list of cities and make it the current city it visited
-  //     cities.erase(nearest_it);
-  //     current_city = nearest_city;
-  // }
 
   Node start_city = tour.path.front(); // distance between current city and starting point
   size_t return_distance = current_city.distance(start_city);
